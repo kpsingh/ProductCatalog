@@ -64,12 +64,14 @@ public class ProductController {
         productDto.setDescription(product.getDescription());
         productDto.setImageUrl(product.getImageUrl());
 
-        CategoryDto categoryDto = new CategoryDto();
-        categoryDto.setId(product.getCategory().getId());
-        categoryDto.setName(product.getCategory().getName());
-        categoryDto.setDescription(product.getCategory().getDescription());
+        if(product.getCategory() != null) {
+            CategoryDto categoryDto = new CategoryDto();
+            categoryDto.setId(product.getCategory().getId());
+            categoryDto.setName(product.getCategory().getName());
+            categoryDto.setDescription(product.getCategory().getDescription());
+            productDto.setCategory(categoryDto);
+        }
 
-        productDto.setCategory(categoryDto);
         return productDto;
     }
 
