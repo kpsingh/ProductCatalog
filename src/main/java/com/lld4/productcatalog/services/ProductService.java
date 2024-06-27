@@ -10,19 +10,27 @@ import org.springframework.web.client.RestTemplate;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
 public class ProductService implements IProductService {
 
     private final RestTemplateBuilder restTemplateBuilder;
+    HashMap<Long, Product> productsMap;
 
     public ProductService(RestTemplateBuilder restTemplateBuilder) {
         this.restTemplateBuilder = restTemplateBuilder;
+        productsMap = new HashMap<>();
     }
 
     @Override
     public Product getProduct(Long productId) {
+
+        if (productsMap.containsKey(productId)) {
+            return productsMap.get(productId);
+        }
+
         RestTemplate restTemplate = restTemplateBuilder.build();
         ResponseEntity<FakeStoreProductDto> fakeStoreProductDtoResponseEntity =
                 restTemplate.getForEntity("https://fakestoreapi.com/products/{id}", FakeStoreProductDto.class, productId);
@@ -53,8 +61,9 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public Product createProduct(Product Product) {
-        return null;
+    public Product createProduct(Product product) {
+        productsMap.put(product.getId(), product);
+        return productsMap.get(product.getId());
     }
 
     private Product from(FakeStoreProductDto fakeStoreProductDto) {
