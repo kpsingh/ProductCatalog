@@ -17,11 +17,9 @@ import java.util.List;
 public class ProductService implements IProductService {
 
     private final FakeStoreApiClient fakeStoreApiClient;
-    private final RestTemplateBuilder restTemplateBuilder;
     private final FakeStoreProductMapper fakeStoreProductMapper;
 
-    public ProductService(RestTemplateBuilder restTemplateBuilder, FakeStoreApiClient fakeStoreApiClient, FakeStoreProductMapper fakeStoreProductMapper) {
-        this.restTemplateBuilder = restTemplateBuilder;
+    public ProductService(FakeStoreApiClient fakeStoreApiClient, FakeStoreProductMapper fakeStoreProductMapper) {
         this.fakeStoreApiClient = fakeStoreApiClient;
         this.fakeStoreProductMapper = fakeStoreProductMapper;
     }
