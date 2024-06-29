@@ -18,7 +18,6 @@ import java.util.List;
 @RestController
 public class ProductController {
 
-
     private final IProductService productService;
 
     public ProductController(IProductService productService) {
@@ -31,7 +30,7 @@ public class ProductController {
         try {
             // Initial validation of request
             if (productId == null || productId <= 0) {
-                throw new BadRequestException("Invalid product id");
+                throw new IllegalArgumentException("Invalid product id");
             }
 
             // we can add the custom headers as well so d it will appear in the response of this API
@@ -48,9 +47,9 @@ public class ProductController {
             // the advantage of returning the ResponseEntity is that we can add the status and any other headers as we want but if we simply return the product then those options will not be available to us
             return new ResponseEntity<>(productDto, customHeaders, HttpStatus.OK);
 
-        } catch (Exception e) {
-            // no response received thence the body part id null.
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        } catch (IllegalArgumentException e) {
+            // this will be read from ControllerAdvice handleException method and message will be taken care.
+            throw e;
         }
     }
 
