@@ -22,22 +22,4 @@ public class FakeStoreProductMapper {
         product.setCategory(category);
         return product;
     }
-
-    public ProductDto getProductDtoFromProduct(Product product) {
-        ProductDto productDto = new ProductDto();
-        productDto.setId(product.getId());
-        productDto.setName(product.getName());
-        productDto.setPrice(product.getPrice());
-        productDto.setDescription(product.getDescription());
-        productDto.setImageUrl(product.getImageUrl());
-        if (product.getCategory() != null) {
-            CategoryDto categoryDto = new CategoryDto();
-            categoryDto.setId(product.getCategory().getId());
-            categoryDto.setName(product.getCategory().getName());
-            categoryDto.setDescription(product.getCategory().getDescription());
-            productDto.setCategory(categoryDto);
-        }
-
-        return productDto;
-    }
 }
