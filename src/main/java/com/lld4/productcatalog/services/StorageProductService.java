@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-@Primary
 public class StorageProductService implements IProductService {
 
     private ProductRepo productRepo;

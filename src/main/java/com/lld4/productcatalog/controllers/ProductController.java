@@ -7,6 +7,7 @@ import com.lld4.productcatalog.models.Category;
 import com.lld4.productcatalog.models.Product;
 import com.lld4.productcatalog.services.IProductService;
 import org.apache.coyote.BadRequestException;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
@@ -22,7 +23,7 @@ public class ProductController {
     private final IProductService productService;
     private final ProductMapper productMapper;
 
-    public ProductController(IProductService productService, ProductMapper productMapper) {
+    public ProductController(@Qualifier("storageProductService") IProductService productService, ProductMapper productMapper) {
         this.productService = productService;
         this.productMapper = productMapper;
     }
