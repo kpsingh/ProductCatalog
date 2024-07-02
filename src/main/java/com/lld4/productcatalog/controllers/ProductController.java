@@ -41,13 +41,7 @@ public class ProductController {
             customHeaders.add("myheader", "This is my custom header");
 
             Product product = productService.getProduct(productId);
-            if (product == null) {
-                // no response received thence the body part id null.
-                // return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-                throw new IllegalArgumentException("product id " + productId + " not found");
-            }
             ProductDto productDto = productMapper.getProductDtoFromProduct(product);
-
             // the advantage of returning the ResponseEntity is that we can add the status and any other headers as we want but if we simply return the product then those options will not be available to us
             return new ResponseEntity<>(productDto, customHeaders, HttpStatus.OK);
 
