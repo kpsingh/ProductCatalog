@@ -6,19 +6,28 @@ import com.lld4.productcatalog.models.Category;
 import com.lld4.productcatalog.models.Product;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
+
 @Component
 public class ProductMapper {
 
     public Product getProductFromProductDto(ProductDto productDto) {
         Product product = new Product();
-        product.setId(productDto.getId());
+        product.setId(productDto.getId()); // setting id is important since autocreation of id set to be false
         product.setName(productDto.getName());
         product.setDescription(productDto.getDescription());
         product.setPrice(productDto.getPrice());
         product.setImageUrl(productDto.getImageUrl());
+        product.setCreatedAt(new Date());
+        product.setLastUpdatedAt(new Date());
+
         Category category = new Category();
+        category.setId(productDto.getCategory().getId()); // setting id is important since autocreation of id set to be false
         category.setName(productDto.getCategory().getName());
         category.setDescription(productDto.getCategory().getDescription());
+        category.setCreatedAt(new Date());
+        category.setLastUpdatedAt(new Date());
+
         product.setCategory(category);
         return product;
     }

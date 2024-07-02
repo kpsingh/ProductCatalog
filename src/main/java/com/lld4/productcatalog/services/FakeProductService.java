@@ -11,12 +11,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class ProductService implements IProductService {
+public class FakeProductService implements IProductService {
 
     private final FakeStoreApiClient fakeStoreApiClient;
     private final FakeStoreProductMapper fakeStoreProductMapper;
 
-    public ProductService(FakeStoreApiClient fakeStoreApiClient, FakeStoreProductMapper fakeStoreProductMapper) {
+    public FakeProductService(FakeStoreApiClient fakeStoreApiClient, FakeStoreProductMapper fakeStoreProductMapper) {
         this.fakeStoreApiClient = fakeStoreApiClient;
         this.fakeStoreProductMapper = fakeStoreProductMapper;
     }
