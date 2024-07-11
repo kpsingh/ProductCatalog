@@ -6,9 +6,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -17,6 +19,7 @@ class ProductRepoTest {
 
     @Autowired
     private ProductRepo productRepo;
+
 
 
     @Test
@@ -38,4 +41,31 @@ class ProductRepoTest {
             System.out.println(product.getName() + " " + product.getIsPrimeSpecific());
         }
     }
+
+    @Test
+    @Transactional
+    public void findAllProductByPriceDesc(){
+        List<Product> productList = productRepo.findAllByOrderByPriceDesc();
+        for(Product product : productList) {
+            System.out.println(product.getName() + " : " + product.getPrice() + " : " + product.getCategory().getName());
+        }
+    }
+
+    @Test
+    @Transactional
+    public void testFindProductNameById(){
+        String productName = productRepo.findProductNameFromId(12L);
+        assertNotNull(productName);
+        System.out.println(productName);
+
+    }
+
+    @Test
+    @Transactional
+    public void testFindCategoryNameFromProductId(){
+        String categoryName = productRepo.findCategoryNameFromProductId(12L);
+        assertNotNull(categoryName);
+        System.out.println(categoryName);
+    }
+
 }
