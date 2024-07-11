@@ -1,0 +1,70 @@
+class 8
+https://www.baeldung.com/jpa-cascade-types
+
+class 9
+https://www.baeldung.com/hibernate-inheritance
+
+class 10
+https://docs.spring.io/spring-data/jpa/reference/repositories/query-keywords-reference.html
+https://www.baeldung.com/hibernate-lazy-eager-loading
+
+CLASS - 11 FETCHMODES,N+1 PROBLEM , QUERIES
+
+https://stackoverflow.com/questions/40762258/how-hibernate-decide-which-of-fetchmode-use-by-default
+
+https://www.baeldung.com/hibernate-fetchmode
+
+https://dheerajgopinath.medium.com/the-issue-with-fetchmode-subselect-and-onetomany-mappings-in-hibernate-and-jpa-f79724068897
+
+https://stackoverflow.com/questions/32984799/fetchmode-join-vs-subselect
+
+https://hackernoon.com/3-ways-to-deal-with-hibernate-n1-problem
+
+https://spring.io/blog/2023/08/31/this-is-the-beginning-of-the-end-of-the-n-1-problem-introducing-single-query
+
+https://docs.spring.io/spring-data/jpa/reference/repositories/query-keywords-reference.html
+
+https://medium.com/javarevisited/spring-jpa-when-to-use-join-fetch-a6cec898c4c6
+
++++++++++++++++++++++++++++++++++++ Fetch Type and Fetch Mode  +++++++++++++++++++
+
+FetchType        FetchMode          Result
+
+LAZY             SELECT             Asked For Products - Queries - 2 select
+                                    Not Asked For Products - Queries - 1 select
+
+
+EAGER            SELECT             Asked For Products - Queries - 2 select
+                                    Not Asked For Products - Queries - 2 select
+
+
+
+LAZY             JOIN               Asked For Products - Queries - 1 join query
+                                    Not Asked For Products - Queries - 1 join query
+
+
+
+EAGER            JOIN               Asked For Products - Queries - 1 join query
+                                    Not Asked For Products - Queries - 1 join query
+
+
+
+LAZY             SUBSELECT           Asked For Products - Queries - 2 select queries
+                                     Not Asked For Products - Queries - 1 select query
+
+
+
+EAGER            SUBSELECT          Asked For Products - Queries - 2 select queries
+                                    Not Asked For Products - Queries - 2 select queries
+
+RESULTS ->
+
+1. FetchMode is honored in case of SELECT in case of fetchtype EAGER, as we
+saw select instead of joins
+
+2. FetchMode Join will be dominant over any fetchtype.
+It will get both Product and Category always
+
+3. In case of SUB-SELECT, it is behaving same as SELECT. Unfortunately we are not able
+to see any Subquery :(
+

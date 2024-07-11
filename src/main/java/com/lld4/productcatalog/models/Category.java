@@ -2,6 +2,7 @@ package com.lld4.productcatalog.models;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import lombok.Getter;
@@ -18,6 +19,6 @@ public class Category extends BaseModel {
 
     private String description;
 
-    @OneToMany(mappedBy = "category")
+    @OneToMany(mappedBy = "category", fetch = FetchType.EAGER)
     private List<Product> product;
 }
