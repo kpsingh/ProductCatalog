@@ -7,11 +7,13 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Setter
 @Getter
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Entity
+@ToString
 public class Product extends BaseModel {
     private String name;
 
@@ -24,5 +26,5 @@ public class Product extends BaseModel {
     @ManyToOne(cascade = CascadeType.ALL)
     private Category category;
 
-    //private Boolean isPrimeSpecific;
+    private Boolean isPrimeSpecific;
 }
