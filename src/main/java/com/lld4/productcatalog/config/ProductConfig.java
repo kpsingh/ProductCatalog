@@ -5,6 +5,7 @@ import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.client.RestClient;
 import org.springframework.web.client.RestTemplate;
 
 @Configuration
@@ -14,4 +15,12 @@ public class ProductConfig {
     public RestTemplate restTemplate() {
         return new RestTemplateBuilder().build();
     }
+
+    @Bean
+    @LoadBalanced
+    public RestClient restClient() {
+        RestClient.Builder builder = RestClient.builder();
+        return builder.build();
+    }
+
 }

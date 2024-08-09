@@ -6,13 +6,16 @@ import com.lld4.productcatalog.mappers.ProductMapper;
 import com.lld4.productcatalog.models.Category;
 import com.lld4.productcatalog.models.Product;
 import com.lld4.productcatalog.services.IProductService;
+import com.netflix.discovery.DiscoveryClient;
 import org.apache.coyote.BadRequestException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestClient;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
@@ -25,11 +28,15 @@ public class ProductController {
     private final ProductMapper productMapper;
 
     private final RestTemplate restTemplate;
+    private final RestClient restClient;
 
-    public ProductController(@Qualifier("storageProductService") IProductService productService, ProductMapper productMapper, RestTemplate restTemplate) {
+    private DiscoveryClient discoveryClient;
+
+    public ProductController(@Qualifier("storageProductService") IProductService productService, ProductMapper productMapper, RestTemplate restTemplate, RestClient restClient) {
         this.productService = productService;
         this.productMapper = productMapper;
         this.restTemplate = restTemplate;
+        this.restClient = restClient;
     }
 
 
@@ -41,9 +48,19 @@ public class ProductController {
                 throw new IllegalArgumentException("Invalid product id");
             }
 
-            ResponseEntity<String> responseEntity = restTemplate.getForEntity("http://PaymentService/payments/5", String.class);
+            // Example of RestTemplate
+            //ResponseEntity<String> responseEntity = restTemplate.getForEntity("http://PaymentService/payments/5", String.class);
+            // return responseEntity;
 
-            return responseEntity;
+            /* example of RestClient -
+                    RestClient is the preferred choice for new Spring Boot projects due to its improved API and active development.
+                    It offers a more concise and modern approach to making HTTP requests.
+
+                    https://www.baeldung.com/spring-cloud-netflix-eureka
+             */
+            //String response = restClient.get().uri("http://localhost:3032/payments/5").retrieve().body(String.class);
+            String response = restClient.get().uri("http://PaymentService/payments/5").retrieve().body(String.class);
+            return new ResponseEntity<>(response, HttpStatus.OK);
 
 
             // we can add the custom headers as well so d it will appear in the response of this API
