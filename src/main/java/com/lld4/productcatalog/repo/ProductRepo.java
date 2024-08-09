@@ -20,7 +20,7 @@ public interface ProductRepo extends JpaRepository<Product, Long> {
     List<Product> findAllByOrderByPriceDesc();
 
 
-    @Query("select p.name from Product p WHERE p.id=?1") // positional association
+   @Query("select p.name from Product p WHERE p.id=?1") // positional association
     String findProductNameFromId(Long id);
 
     // read the category name from product id using named association
