@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,28 +24,36 @@ public class ProductController {
     private final IProductService productService;
     private final ProductMapper productMapper;
 
-    public ProductController(@Qualifier("storageProductService") IProductService productService, ProductMapper productMapper) {
+    private final RestTemplate restTemplate;
+
+    public ProductController(@Qualifier("storageProductService") IProductService productService, ProductMapper productMapper, RestTemplate restTemplate) {
         this.productService = productService;
         this.productMapper = productMapper;
+        this.restTemplate = restTemplate;
     }
 
 
     @GetMapping("/products/{id}")
-    public ResponseEntity<ProductDto> getProduct(@PathVariable("id") Long productId) {
+    public ResponseEntity<String> getProduct(@PathVariable("id") Long productId) {
         try {
             // Initial validation of request
             if (productId == null || productId <= 0) {
                 throw new IllegalArgumentException("Invalid product id");
             }
 
-            // we can add the custom headers as well so d it will appear in the response of this API
-            MultiValueMap<String, String> customHeaders = new LinkedMultiValueMap<>();
-            customHeaders.add("myheader", "This is my custom header");
+            ResponseEntity<String> responseEntity = restTemplate.getForEntity("http://PaymentService/payments/5", String.class);
 
-            Product product = productService.getProduct(productId);
-            ProductDto productDto = productMapper.getProductDtoFromProduct(product);
+            return responseEntity;
+
+
+            // we can add the custom headers as well so d it will appear in the response of this API
+            //  MultiValueMap<String, String> customHeaders = new LinkedMultiValueMap<>();
+            //  customHeaders.add("myheader", "This is my custom header");
+
+            //  Product product = productService.getProduct(productId);
+            //  ProductDto productDto = productMapper.getProductDtoFromProduct(product);
             // the advantage of returning the ResponseEntity is that we can add the status and any other headers as we want but if we simply return the product then those options will not be available to us
-            return new ResponseEntity<>(productDto, customHeaders, HttpStatus.OK);
+            // return new ResponseEntity<>(productDto, customHeaders, HttpStatus.OK);
 
         } catch (IllegalArgumentException e) {
             // this will be read from ControllerAdvice handleException method and message will be taken care.
